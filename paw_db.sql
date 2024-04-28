@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS paw_db;
+
+USE paw_db;
