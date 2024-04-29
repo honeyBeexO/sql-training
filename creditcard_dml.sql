@@ -29,3 +29,27 @@ WHERE `City` <> 'London';
 SELECT COUNT(`CreditcardNum`) as NumberOfMasters
 FROM creditcard
 WHERE `Creditcard_type` = 'Mastercard';
+
+SELECT City, COUNT(CreditcardNum)
+FROM creditcard
+GROUP BY `City`;
+
+SELECT CardHolder, COUNT(DISTINCT CreditcardNum) as NumOFCards
+FROM creditcard
+GROUP BY CardHolder
+ORDER BY NumOfCards DESC;
+
+SELECT City, MIN(Credit_Limit) AS Minimum, MAX(Credit_Limit) AS Maximum
+FROM creditcard
+GROUP BY City;
+
+SELECT City, MIN(Credit_Limit) AS Minimum, MAX(Credit_Limit) AS Maximum,
+SUM(Totalspent) AS Total
+FROM creditcard
+GROUP BY City;
+
+SELECT CardHolder, MIN(Totalspent) AS Minimum, MAX(Totalspent) AS Maximum,
+SUM(Totalspent) AS Total, SUM(`Credit_Limit`) AS totalLimit
+FROM creditcard
+GROUP BY CardHolder,`CreditcardNum`
+ORDER BY CardHolder;

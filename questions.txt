@@ -66,30 +66,43 @@ FROM creditcard
 GROUP BY Creditcard_type 
 HAVING Creditcard_type = 'Mastercard' OR Creditcard_type = 'Visa';
 
-	•	  Find the number of credit cards that were issued in each city?
+	•	  Find the number of credit cards that 
+    were issued in each city?
 SELECT City, COUNT(CreditcardNum) FROM creditcard GROUP BY City;
 
-	•	   Display the number of credit cards that was issued for each cardholder?
+	•	   Display the number of credit cards 
+    that was issued for each cardholder?
 SELECT CardHolder, COUNT(CreditcardNum) FROM creditcard GROUP BY CardHolder;
 
 	•	  What is the minimum and maximum credit limit for each city?
 SELECT City, MIN(Credit_Limit), MAX(Credit_Limit) FROM creditcard GROUP BY City;
 
-	•	What are the maximum credit limit, minimum credit limit and the sum of all spend for each city?
+	•	What are the maximum credit limit, 
+    minimum credit limit and the sum of all spend for each city?
 SELECT City, MIN(Credit_Limit), MAX(Credit_Limit), SUM(TotalSpent) FROM creditcard GROUP BY City;
 
-	•	  What is the minimum and the maximum spending by each cardholder?
-SELECT Cardholder, MIN(TotalSpent), MAX(TotalSpent) FROM creditcard GROUP BY Cardholder;
+	•	  What is the minimum and the maximum 
+    spending by each cardholder?
+SELECT Cardholder, MIN(TotalSpent), 
+MAX(TotalSpent) FROM creditcard 
+GROUP BY Cardholder;
 
 
-	•	  Write a query that will display the total amount of credit used by each cardholder?
+	.Write a query that will 
+    display the total amount of 
+    credit used by each cardholder?
 SELECT Cardholder, SUM(TotalSpent) FROM creditcard GROUP BY Cardholder;
 
 	•	Write a query to display the remaining amount on each credit card?
 SELECT CreditcardNum, (Credit_Limit - TotalSpent) AS RemainingAmount FROM creditcard;
 
-	•	 Write a query to find the number of credit cards issued in each year from the table.
-SELECT YEAR(Issue_Date), COUNT(CreditcardNum) FROM creditcard GROUP BY YEAR(Issue_Date);
+	•	 Write a query to find the number of 
+    credit cards issued 
+    in each year from the table.
+SELECT YEAR(Issue_Date), 
+COUNT(CreditcardNum) 
+FROM creditcard 
+GROUP BY YEAR(Issue_Date);
 
 	•	Write a query to find the number of credit card issued by each month.
 SELECT MONTH(Issue_Date), COUNT(CreditcardNum) FROM creditcard GROUP BY MONTH(Issue_Date);
