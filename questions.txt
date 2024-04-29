@@ -1,0 +1,118 @@
+SELECT STATEMENTS PRACTICE QUESTIONS – WEEK 4 - SOLUTIONS
+
+
+PART 1 (solution script available under Week 4 in BB)
+	•	Create a table named Creditcard with the entire column in the excel 
+sheet called Creditcard.csv.
+	•	Write a query that will display the structure of the table.
+	•	Make sure you have the following:
+	•	Correct columns name.
+	•	Correct data types.
+	•	Correct number of characters.
+	•	Right contraints.
+	•	Add a primary key constraint.
+	•	Add a check constraint to make sure the Credit_Limit column is greater than 0.
+	•	Execute the script in the file “Insert into Creditcard”.
+
+PART 2
+	•	Write a query that will display the number of records in the table.
+SELECT COUNT(CreditcardNum) FROM creditcard;
+
+	•	Write a query that will display the number of different credit card companies in the table.
+SELECT COUNT(DISTINCT Creditcard_company) FROM creditcard;
+
+	•	Write a query that will display a list of credit card companies from the table.
+SELECT DISTINCT Creditcard_company FROM creditcard;
+
+	•	Write a query that will display a list of credit cards, ordered by the highest credit limit.
+SELECT CreditcardNum, Credit_Limit FROM creditcard ORDER BY Credit_Limit DESC;
+
+	•	Write a query that will display the credit card with the highest credit card limit.
+SELECT CreditcardNum, Credit_Limit FROM creditcard ORDER BY Credit_Limit DESC LIMIT 1;
+
+SELECT CreditcardNum, Credit_Limit FROM creditcard WHERE Credit_Limit = (SELECT MAX(Credit_Limit) FROM creditcard);
+
+	•	  Write a query to find all credit cards that was issued in London.
+SELECT CreditcardNum, City FROM creditcard WHERE City = 'London';
+
+	•	  List all credit cards that were issued in Aberdeen with credit limit more than £5000.
+SELECT CreditcardNum, City, Credit_Limit FROM creditcard WHERE City LIKE 'Aber%' AND Credit_Limit > 5000;
+
+
+	•	  List all credit cards that were issued 
+    with credit limits of £1200, £3000 and £4500.
+SELECT CreditcardNum, Credit_Limit FROM creditcard 
+WHERE Credit_Limit IN (1200, 3000, 4500);
+
+	•	  List all credit cards that were not issued in London?
+SELECT CreditcardNum, City FROM creditcard WHERE City <> 'London';
+
+	•	  Find the number of Mastercard that was issued?
+SELECT Creditcard_type, COUNT(Creditcard_type) 
+FROM creditcard WHERE Creditcard_type = 'Mastercard';
+
+If you need more than 1 (e.g. Visa too)? 
+> See next question (11)
+Solution:
+SELECT Creditcard_type, COUNT(Creditcard_type) 
+FROM creditcard 
+WHERE Creditcard_type = 'Mastercard' OR Creditcard_type = 'Visa' 
+GROUP BY Creditcard_type;
+
+(or)
+
+SELECT Creditcard_type, COUNT(Creditcard_type) 
+FROM creditcard 
+GROUP BY Creditcard_type 
+HAVING Creditcard_type = 'Mastercard' OR Creditcard_type = 'Visa';
+
+	•	  Find the number of credit cards that were issued in each city?
+SELECT City, COUNT(CreditcardNum) FROM creditcard GROUP BY City;
+
+	•	   Display the number of credit cards that was issued for each cardholder?
+SELECT CardHolder, COUNT(CreditcardNum) FROM creditcard GROUP BY CardHolder;
+
+	•	  What is the minimum and maximum credit limit for each city?
+SELECT City, MIN(Credit_Limit), MAX(Credit_Limit) FROM creditcard GROUP BY City;
+
+	•	What are the maximum credit limit, minimum credit limit and the sum of all spend for each city?
+SELECT City, MIN(Credit_Limit), MAX(Credit_Limit), SUM(TotalSpent) FROM creditcard GROUP BY City;
+
+	•	  What is the minimum and the maximum spending by each cardholder?
+SELECT Cardholder, MIN(TotalSpent), MAX(TotalSpent) FROM creditcard GROUP BY Cardholder;
+
+
+	•	  Write a query that will display the total amount of credit used by each cardholder?
+SELECT Cardholder, SUM(TotalSpent) FROM creditcard GROUP BY Cardholder;
+
+	•	Write a query to display the remaining amount on each credit card?
+SELECT CreditcardNum, (Credit_Limit - TotalSpent) AS RemainingAmount FROM creditcard;
+
+	•	 Write a query to find the number of credit cards issued in each year from the table.
+SELECT YEAR(Issue_Date), COUNT(CreditcardNum) FROM creditcard GROUP BY YEAR(Issue_Date);
+
+	•	Write a query to find the number of credit card issued by each month.
+SELECT MONTH(Issue_Date), COUNT(CreditcardNum) FROM creditcard GROUP BY MONTH(Issue_Date);
+
+	•	  Write a query that will display all the credit cards that where issued after January 1st 2020.
+SELECT CreditcardNum, Issue_Date FROM creditcard WHERE Issue_Date > '2020-01-01';
+
+	•	  Write a query to display the total amount of credit left to each of the Cardholder from all their credit cards.
+SELECT Cardholder, SUM(Credit_Limit - TotalSpent) FROM creditcard GROUP BY Cardholder;
+
+	•	  Write a query that will display the remaining credit on all cards by each year of issue.
+SELECT YEAR(Issue_Date), SUM(Credit_Limit - TotalSpent) FROM creditcard GROUP BY YEAR(Issue_Date);
+
+	•	  Write a query that will display the remaining credit on the cards by the month they were issued.
+SELECT MONTH(Issue_Date), SUM(Credit_Limit - TotalSpent) FROM creditcard GROUP BY MONTH(Issue_Date);
+
+	•	  Assuming each card expires in 18 months, write a query to display the date when each card will expire?
+SELECT CreditcardNum, Issue_Date, DATE_ADD(Issue_Date, INTERVAL 18 MONTH) AS Expiry_Date FROM creditcard;
+
+	•	Assuming a new card is sent to each of the cardholder a month before the card expire, write a query to display the date a new card should be posted to the cardholder?
+SELECT CreditcardNum, Issue_Date, DATE_ADD(Issue_Date, INTERVAL 18 MONTH) AS Expiry_Date, DATE_ADD(Issue_Date, INTERVAL 17 MONTH) AS Replacement_Date FROM creditcard;
+
+	•	  Write a query to display all cardholders who have a credit limit higher than the average credit limit in the table.
+SET @AvgCredLimit = ROUND((SELECT AVG(Credit_Limit) FROM creditcard), 2);
+SELECT Cardholder, Credit_Limit, @AvgCredLimit AS AvgCredit_Limit FROM creditcard WHERE Credit_Limit > @AvgCredLimit;
+
