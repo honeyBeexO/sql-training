@@ -42,23 +42,22 @@ WHERE DeptName IS NULL;
 
 CREATE TABLE IF NOT EXISTS Address (
   address_id INT NOT NULL AUTO_INCREMENT,
-  country VARCHAR(100) NOT NULL,
-  city VARCHAR(100) NOT NULL,
-  street1 VARCHAR(255),
-  street2 VARCHAR(255),
-  house_number_or_name VARCHAR(255) NOT NULL UNIQUE,
+  country VARCHAR(100) DEFAULT 'United Kingdom',
+  city VARCHAR(100) NOT NULL ,
+  street VARCHAR(255),
+  building VARCHAR(100),
   postcode VARCHAR(10) NOT NULL,
-  PRIMARY KEY (address_id)
+  PRIMARY KEY (address_id),
+  UNIQUE KEY (country, city, street, building, postcode)
 );
-
+DROP table address;
 
 INSERT INTO Address(
-  country,city,street,house_number_or_name,postcode
+  city,street,building,postcode
 ) VALUES(
-'United Kingdom',
 'Farnbrough',
 'Knights Barang',
-'26',
+'01',
 'GU14 8CD'
 );
-SELECT * FROM Address;
+SELECT * FROM Address ORDER BY postcode;
